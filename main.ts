@@ -6,6 +6,14 @@ function assignSeekers () {
         }
     }
 }
+radio.onReceivedNumber(function (receivedNumber) {
+    if (receivedNumber == 1337) {
+        for (let value of usedChannels) {
+            radio.setGroup(value)
+            radio.sendString("stopGame")
+        }
+    }
+})
 function sendStringToRandomChannel (message: string) {
     currentChannel = usedChannels._pickRandom()
     radio.setGroup(currentChannel)
@@ -43,6 +51,11 @@ function addPlayer (recievedString: string) {
 }
 input.onButtonPressed(Button.AB, function () {
     assignRoles()
+    for (let value of usedChannels) {
+        radio.setGroup(value)
+        radio.sendString("StartGame")
+    }
+    radio.setGroup(120)
 })
 radio.onReceivedString(function (receivedString) {
     if (unusedChannels.length != 0 && isDeviceAlreadyInList(receivedString) == 0) {
